@@ -28,8 +28,8 @@ public class Tenant {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "backlog", nullable = false)
-    private Boolean backlog = false;
+    @Column(name = "is_backlog", nullable = false)
+    private Boolean isBacklog = false;
 
     @Column(name = "tenants_number", nullable = false)
     private int tenantsNumber;
@@ -43,6 +43,9 @@ public class Tenant {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
     private Flat flat;
+
+    @OneToOne(mappedBy = "invoice")
+    private Invoice invoice;
 
     //To DO invoice list, flat number
 }

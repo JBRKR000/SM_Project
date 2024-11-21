@@ -19,20 +19,15 @@ public class Flat {
     @Column(name = "flat_number", nullable = false)
     private int flatNumber;
 
-    @Column(name = "city", nullable = false)
-    private String city;
-
-    @Column(name = "street", nullable = false)
-    private String street;
-
-    @Column(name = "block_number", nullable = false)
-    private int blockNumber;
 
     @Column(name = "surface", nullable = false)
     private float surface;
 
     @OneToOne(mappedBy = "flat")
     private Tenant tenant;
+
+    @OneToOne(mappedBy = "flat")
+    private Accident accident;
 
     @ManyToOne
     @JoinColumn(name = "apartment_staircase_id", nullable = false)
