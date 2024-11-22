@@ -1,4 +1,4 @@
-package pbs.edu.cooperative.model;
+package pbs.edu.cooperative.model.enums;
 
 public enum InvoiceCategory {
     WATER,
