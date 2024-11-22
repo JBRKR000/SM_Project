@@ -30,6 +30,6 @@ public class Accident {
     private boolean isResolved;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
-    private Tenant tenant;
+    @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
+    private Flat flat;
 }

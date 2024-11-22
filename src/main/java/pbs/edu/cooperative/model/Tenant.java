@@ -44,7 +44,7 @@ public class Tenant {
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
     private Flat flat;
 
-    @OneToOne(mappedBy = "invoice")
+    @OneToOne(mappedBy = "tenant")
     private Invoice invoice;
 
     //To DO invoice list, flat number
