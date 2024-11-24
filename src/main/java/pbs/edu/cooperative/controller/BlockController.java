@@ -21,7 +21,7 @@ public class BlockController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Block> getBlockById(@PathVariable int id) {
+    public Optional<Block> getBlockById(@PathVariable("id") int id) {
         return blockService.getBlockById(id);
     }
 
