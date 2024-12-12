@@ -34,7 +34,7 @@ public class Tenant {
     @Column(name = "tenants_number", nullable = false)
     private int tenantsNumber;
 
-    @Column(name = "mail", nullable = false)
+    @Column(name = "mail", nullable = false, unique = true)
     private String mail;
 
     @Column(name = "water_consumption", nullable = false)
