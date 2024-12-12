@@ -27,7 +27,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN") // Dostęp tylko dla adminów
+                        .anyRequest().hasAuthority("USER") // Inne endpointy dostępne dla zwykłych użytkowników
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
