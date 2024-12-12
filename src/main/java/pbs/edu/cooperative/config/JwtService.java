@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import pbs.edu.cooperative.User.User;
+
 @Service
 public class JwtService {
 
@@ -29,8 +31,11 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", ((User) userDetails).getRole().name()); // Dodanie roli do tokenu
+        return generateToken(claims, userDetails);
     }
+
 
     public String generateToken(
             Map<String, Object> extraClaims,

@@ -11,7 +11,5 @@ import java.util.List;
 
 public interface AccidentRepository extends JpaRepository<Accident, Integer> {
 
-    @Query("SELECT a FROM Accident a WHERE a.flat.flatId = :flat_id")
-    List<Accident> accidentList(@Param("flat_id") Integer flat_id, Pageable pageable);
 
 }
