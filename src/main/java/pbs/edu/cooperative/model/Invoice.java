@@ -27,6 +27,7 @@ public class Invoice {
     private Tenant tenant ;
 
     @Column(name = "invoice_category", nullable = false)
+    @Enumerated(EnumType.STRING)
     private InvoiceCategory invoiceCategory;
 
     @Column(name = "issue_date", nullable = false)
