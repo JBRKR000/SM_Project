@@ -23,7 +23,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .name(request.getFirstName())  // Sprawdź, czy to jest poprawnie przypisane
+                .name(request.getFirstName())// Sprawdź, czy to jest poprawnie przypisane
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))  // Upewnij się, że hasło jest szyfrowane
                 .role(Role.USER)  // Sprawdź, czy masz odpowiednią rolę w bazie danych
