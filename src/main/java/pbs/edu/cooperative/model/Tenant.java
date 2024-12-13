@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pbs.edu.cooperative.User.User;
 
 @Entity
 @Table(name="Tenant")
@@ -43,6 +44,9 @@ public class Tenant {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
     private Flat flat;
+
+    @OneToOne(mappedBy = "tenant")
+    private User user;
 
     @OneToOne(mappedBy = "tenant")
     private Invoice invoice;

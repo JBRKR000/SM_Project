@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pbs.edu.cooperative.model.Tenant;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +32,10 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id")
+    private Tenant tenant;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
