@@ -33,7 +33,7 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", ((User) userDetails).getRole().name()); // Dodanie roli do tokenu
-        if(!((User) userDetails).getRole().name().equals("ADMIN")){
+        if(!((User) userDetails).getRole().name().equals("ADMIN")){ //siema
             claims.put("tenant_id", ((User) userDetails).getTenant().getTenantId()); //Dodanie tenant_id do tokenu
         }
         return generateToken(claims, userDetails);
