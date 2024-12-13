@@ -1,5 +1,8 @@
 package pbs.edu.cooperative.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +16,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"tenant"})
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +26,10 @@ public class Invoice {
     @Column(name = "invoice_number", nullable = false)
     private String invoiceNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
-    private Tenant tenant ;
+    @ManyToOne
+    @JoinColumn(name = "tenant_id", nullable = false)
+    @JsonBackReference
+    private Tenant tenant;
 
     @Column(name = "invoice_category", nullable = false)
     @Enumerated(EnumType.STRING)

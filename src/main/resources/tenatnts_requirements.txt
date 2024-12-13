@@ -1,0 +1,16 @@
+1. Lista faktur dotyczacych danego tenanta
+2. Dostęp do tworzenia accidentu do jego mieszkania
+3. Dostęp do deklarowania zużycia wody /per miesiac
+4. Zmiana swojega hasła
+5. Zmiana ilosci mieszkancow do mieszkania
+
+
+1. - Page getInvoiceListbyTenantId(tenant id)
+2. - void saveAccidentbyTennatnId(tennant id){
+        flatid = getfladidbytenantid
+    }
+3. void setTenantid
+4. kuba nie chce
+5. set tenant_number
+
+

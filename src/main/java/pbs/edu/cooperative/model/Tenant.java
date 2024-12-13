@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pbs.edu.cooperative.User.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="Tenant")
 @Data
@@ -51,9 +54,12 @@ public class Tenant {
     private Flat flat;
 
     @OneToOne(mappedBy = "tenant")
+    @JsonManagedReference
     private User user;
 
-    @OneToOne(mappedBy = "tenant")
-    private Invoice invoice;
+
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Invoice> invoices = new ArrayList<>();
 }
 

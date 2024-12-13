@@ -35,7 +35,9 @@ public class Flat {
 
     @ManyToOne
     @JoinColumn(name = "apartment_staircase_id", nullable = false)
+    @JsonBackReference
     private ApartmentStaircase apartmentStaircase;
+
 }
 
 

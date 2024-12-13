@@ -44,4 +44,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     public void deleteInvoice(Invoice invoice) {
         invoiceRepository.delete(invoice);
     }
+
+    @Override
+    public Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable) {
+        return invoiceRepository.findByTenant_TenantId(tenantId, pageable);
+    }
 }

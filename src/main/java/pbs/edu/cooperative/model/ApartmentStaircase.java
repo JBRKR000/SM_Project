@@ -2,6 +2,7 @@ package pbs.edu.cooperative.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"block"})  // Ignorowanie relacji z Block
+@JsonIgnoreProperties({"block", "flatList"})  // Ignorowanie relacji z Block
 public class ApartmentStaircase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +26,14 @@ public class ApartmentStaircase {
     @Column(name = "shared_surface")
     private float sharedSurface;
 
-    @OneToMany(mappedBy = "apartmentStaircase", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Flat> flatList = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "block_id", nullable = false)
     @JsonBackReference
     private Block block;
+
+    @OneToMany(mappedBy = "apartmentStaircase", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Flat> flatList = new ArrayList<>();
+
 }
 
