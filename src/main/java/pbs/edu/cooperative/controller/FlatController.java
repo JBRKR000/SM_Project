@@ -10,7 +10,7 @@ import pbs.edu.cooperative.service.FlatService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/flats")
+@RequestMapping("/api/admin/flats")
 public class FlatController {
 
     private final FlatService flatService;

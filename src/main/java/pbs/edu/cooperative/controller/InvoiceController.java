@@ -10,7 +10,7 @@ import pbs.edu.cooperative.service.InvoiceService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/invoices")
+@RequestMapping("/api/admin/invoices")
 public class InvoiceController {
 
     private final InvoiceService invoiceService;

@@ -5,6 +5,6 @@ package pbs.edu.cooperative.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/accident")
+@RequestMapping("/api/admin/accident")
 public class AccidentController {
 }

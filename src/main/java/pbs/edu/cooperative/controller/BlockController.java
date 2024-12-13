@@ -10,7 +10,7 @@ import pbs.edu.cooperative.service.BlockService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/blocks")
+@RequestMapping("/api/admin/blocks")
 public class BlockController {
 
     private final BlockService blockService;

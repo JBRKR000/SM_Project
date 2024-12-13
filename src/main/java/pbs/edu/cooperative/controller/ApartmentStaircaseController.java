@@ -10,7 +10,7 @@ import pbs.edu.cooperative.service.ApartmentStaircaseService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/apartment_staircases")
+@RequestMapping("/api/admin/apartment_staircases")
 public class ApartmentStaircaseController {
 
     private final ApartmentStaircaseService apartmentStaircaseService;
