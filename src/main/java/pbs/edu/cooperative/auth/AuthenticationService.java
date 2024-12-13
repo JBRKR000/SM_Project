@@ -10,6 +10,8 @@ import pbs.edu.cooperative.User.Role;
 import pbs.edu.cooperative.User.User;
 import pbs.edu.cooperative.User.UserRepository;
 import pbs.edu.cooperative.config.JwtService;
+import pbs.edu.cooperative.model.Tenant;
+import pbs.edu.cooperative.repository.TenantRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -19,17 +21,30 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final TenantRepository tenantRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
+
+        Tenant tenant = tenantRepository.findById(request.getTenantId())
+                .orElseThrow(() -> new IllegalArgumentException("Tenant not found with ID: " + request.getTenantId()));
+
+        // Tworzenie nowego użytkownika
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))  // Upewnij się, że hasło jest szyfrowane
+                .tenant(tenant) // Przypisanie tenantId z żądania
                 .role(Role.USER)
                 .build();
-        userRepository.save(user);  // Sprawdź, czy użytkownik jest poprawnie zapisywany w bazie
-        var jwtToken = jwtService.generateToken(user);  // Generowanie tokenu
+
+        // Zapisanie użytkownika do bazy danych
+        userRepository.save(user);
+
+        // Generowanie tokenu JWT
+        var jwtToken = jwtService.generateToken(user);
+
+        // Zwracanie tokenu w odpowiedzi
         return AuthenticationResponse.builder()
-                .token(jwtToken)  // Zwrócenie tokenu
+                .token(jwtToken)
                 .build();
     }
 

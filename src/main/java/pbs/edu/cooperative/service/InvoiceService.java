@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Invoice;
-import pbs.edu.cooperative.repository.InvoiceRepository;
 
 import java.util.Optional;
 
@@ -16,5 +15,5 @@ public interface InvoiceService {
     Page<Invoice> getAllInvoices(Pageable pageable);
     void deleteInvoiceById(int id);
     void deleteInvoice(Invoice invoice);
-    public Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable);
+    Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable);  // Zmieniono z List<Invoice> na Page<Invoice>
 }

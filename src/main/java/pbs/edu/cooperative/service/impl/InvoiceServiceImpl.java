@@ -8,6 +8,7 @@ import pbs.edu.cooperative.model.Invoice;
 import pbs.edu.cooperative.repository.InvoiceRepository;
 import pbs.edu.cooperative.service.InvoiceService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,7 +47,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable) {
+    public Page<Invoice> getInvoicesByTenantId(int tenantId ,Pageable pageable) {
         return invoiceRepository.findByTenant_TenantId(tenantId, pageable);
     }
 }

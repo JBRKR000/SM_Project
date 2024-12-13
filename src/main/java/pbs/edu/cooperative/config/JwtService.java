@@ -81,4 +81,8 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+    public int extractTenantIdFromToken(String token) {
+        return (Integer) extractClaim(token, claims -> claims.get("tenant_id"));
+    }
+
 }

@@ -5,12 +5,14 @@
 5. Zmiana ilosci mieszkancow do mieszkania
 
 
-1. - Page getInvoiceListbyTenantId(tenant id)
-2. - void saveAccidentbyTennatnId(tennant id){
+1. - Page getInvoiceListbyTenantId(tenant id)  to działa
+2. - void saveAccidentbyTennatnId(tennant id){  to nie działa
         flatid = getfladidbytenantid
     }
 3. void setTenantid
 4. kuba nie chce
 5. set tenant_number
+
+
 
 
