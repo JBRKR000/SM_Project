@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/authenticate").permitAll()
                         .requestMatchers("/api/auth/register").hasAuthority("ADMIN")
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/tenants/user").hasAuthority("USER")
                         .requestMatchers("/api/**").hasAuthority("ADMIN")
                         .anyRequest().hasAuthority("USER") // Inne endpointy dostępne dla zwykłych użytkowników
                 )

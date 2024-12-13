@@ -20,7 +20,7 @@ public class TenantController {
         this.tenantService = tenantService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public Optional<Tenant> getTenantById(@PathVariable int id) {
         return tenantService.getTenantById(id);
     }
@@ -30,7 +30,7 @@ public class TenantController {
         return tenantService.saveTenant(tenant);
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public Page<Tenant> getAllTenants(Pageable pageable) {
         return tenantService.getAllTenants(pageable);
     }
