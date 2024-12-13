@@ -1,5 +1,8 @@
 package pbs.edu.cooperative.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +14,7 @@ import pbs.edu.cooperative.User.User;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"flat", "user", "invoice"})
 public class Tenant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +47,7 @@ public class Tenant {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
+    @JsonManagedReference
     private Flat flat;
 
     @OneToOne(mappedBy = "tenant")
@@ -50,6 +55,5 @@ public class Tenant {
 
     @OneToOne(mappedBy = "tenant")
     private Invoice invoice;
-
-    //To DO invoice list, flat number
 }
+

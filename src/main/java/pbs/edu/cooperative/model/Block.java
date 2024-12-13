@@ -1,5 +1,6 @@
 package pbs.edu.cooperative.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +30,6 @@ public class Block {
     private int buildingNumber;
 
     @OneToMany(mappedBy = "block", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"block"})
     private List<ApartmentStaircase> apartmentStaircasesList = new ArrayList<>();
 }

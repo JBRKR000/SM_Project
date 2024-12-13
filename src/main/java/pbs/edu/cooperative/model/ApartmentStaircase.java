@@ -1,5 +1,7 @@
 package pbs.edu.cooperative.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"block"})  // Ignorowanie relacji z Block
 public class ApartmentStaircase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +30,7 @@ public class ApartmentStaircase {
 
     @ManyToOne
     @JoinColumn(name = "block_id", nullable = false)
+    @JsonBackReference
     private Block block;
 }
+
