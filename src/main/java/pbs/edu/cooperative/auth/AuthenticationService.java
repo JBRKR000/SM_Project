@@ -25,7 +25,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))  // Upewnij się, że hasło jest szyfrowane
-                .role(Role.ADMIN)
+                .role(Role.USER)
                 .build();
         userRepository.save(user);  // Sprawdź, czy użytkownik jest poprawnie zapisywany w bazie
         var jwtToken = jwtService.generateToken(user);  // Generowanie tokenu
