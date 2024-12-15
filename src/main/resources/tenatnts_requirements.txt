@@ -13,6 +13,11 @@
 4. kuba nie chce
 5. set tenant_number
 
+-------------------------------------------------------------------
+wyswietl wszystkich zadluzonych
+
+wyswietl wszystkie nierozwiazane accidents
+
 
 
 

@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="Flat")
 @Data
@@ -29,9 +32,9 @@ public class Flat {
     @JsonBackReference
     private Tenant tenant;
 
-    @OneToOne(mappedBy = "flat")
+    @OneToMany(mappedBy = "flat", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
-    private Accident accident;
+    private List<Accident> accidents = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "apartment_staircase_id", nullable = false)

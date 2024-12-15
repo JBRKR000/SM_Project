@@ -10,8 +10,11 @@ import java.util.Optional;
 @Service
 public interface AccidentService {
     Optional<Accident> getAccident(Integer accidentId);
-    Accident setAccident(Accident accident);
+    Accident saveAccident(Accident accident);
+
     Page<Accident> getAccidents(Pageable pageable);
     void deleteAccidentById(Integer accidentId);
     void deleteAccident(Accident accident);
+    Page<Accident> getAccidentsByFlatId(int flatId, Pageable pageable);
+
 }

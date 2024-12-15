@@ -26,7 +26,7 @@ public class AccidentServiceImpl implements AccidentService {
     }
 
     @Override
-    public Accident setAccident(Accident accident) {
+    public Accident saveAccident(Accident accident) {
         return accidentRepository.save(accident);
     }
 
@@ -44,4 +44,11 @@ public class AccidentServiceImpl implements AccidentService {
     public void deleteAccident(Accident accident) {
         accidentRepository.delete(accident);
     }
+
+    @Override
+    public Page<Accident> getAccidentsByFlatId(int flatId, Pageable pageable) {
+        return accidentRepository.findByFlatFlatId(flatId, pageable);
+    }
+
+
 }

@@ -31,7 +31,7 @@ public class Accident {
     @Column(name = "is_resolved", nullable = false)
     private boolean isResolved;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "flat_id", nullable = false)
     private Flat flat;
 }
