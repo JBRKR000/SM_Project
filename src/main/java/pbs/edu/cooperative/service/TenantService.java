@@ -14,4 +14,5 @@ public interface TenantService {
     Page<Tenant> getAllTenants(Pageable pageable);
     void deleteTenantById(int id);
     void deleteTenant(Tenant tenant);
+    Page<Tenant> getAllBacklogTenants(Pageable pageable);
 }
