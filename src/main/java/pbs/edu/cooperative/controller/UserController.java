@@ -1,11 +1,20 @@
 package pbs.edu.cooperative.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import pbs.edu.cooperative.User.User;
+import pbs.edu.cooperative.User.UserRepository;
+import pbs.edu.cooperative.auth.ChangePasswordRequest;
 import pbs.edu.cooperative.model.Accident;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.model.Invoice;
@@ -25,13 +34,17 @@ public class UserController {
     private final TenantService tenantService;
     private final AccidentService accidentService;
     private final JwtService jwtService;  // Dodaj pole dla JwtService
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(InvoiceService invoiceService, TenantService tenantService, AccidentService accidentService, JwtService jwtService) {  // Wstrzykujemy JwtService
+    public UserController(InvoiceService invoiceService, TenantService tenantService, AccidentService accidentService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.invoiceService = invoiceService;
         this.tenantService = tenantService;
         this.accidentService = accidentService;
         this.jwtService = jwtService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     @GetMapping("/test")
     public String test() {
@@ -77,5 +90,19 @@ public class UserController {
         // Pobierz wypadki powiązane z mieszkaniem Tenant
         return accidentService.getAccidentsByFlatId(tenant.getFlat().getFlatId(), pageable);
     }
+    @PostMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+        try {
+            User user = userRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+            user.setPassword(encodedPassword);
+            userRepository.save(user);
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
+
 
 }
