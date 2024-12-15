@@ -13,4 +13,7 @@ import java.util.List;
 public interface AccidentRepository extends JpaRepository<Accident, Integer> {
     Page<Accident> findByFlatFlatId(int flatId, Pageable pageable);
 
+    @Query("select a from Accident a where a.isResolved == false")
+    Page<Accident> findAllByResolved(Pageable pageable);
+
 }

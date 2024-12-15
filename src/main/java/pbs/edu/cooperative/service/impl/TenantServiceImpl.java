@@ -44,4 +44,9 @@ public class TenantServiceImpl implements TenantService {
     public void deleteTenant(Tenant tenant) {
         tenantRepository.delete(tenant);
     }
+
+    @Override
+    public Page<Tenant> getAllBacklogTenants(Pageable pageable) {
+        return tenantRepository.findAllTenantsByIsBacklog(pageable);
+    }
 }

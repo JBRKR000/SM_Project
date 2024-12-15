@@ -16,5 +16,6 @@ public interface AccidentService {
     void deleteAccidentById(Integer accidentId);
     void deleteAccident(Accident accident);
     Page<Accident> getAccidentsByFlatId(int flatId, Pageable pageable);
+    Page<Accident> getAllByResolved(Pageable pageable);
 
 }

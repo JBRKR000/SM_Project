@@ -14,9 +14,13 @@
 5. set tenant_number
 
 -------------------------------------------------------------------
-wyswietl wszystkich zadluzonych
+wyswietl wszystkich zadluzonych - zrobione
 
-wyswietl wszystkie nierozwiazane accidents
+wyswietl wszystkie nierozwiazane accidents - zrobione
+
+
+
+
 
 
 

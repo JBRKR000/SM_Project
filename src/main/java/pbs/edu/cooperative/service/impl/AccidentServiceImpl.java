@@ -50,5 +50,10 @@ public class AccidentServiceImpl implements AccidentService {
         return accidentRepository.findByFlatFlatId(flatId, pageable);
     }
 
+    @Override
+    public Page<Accident> getAllByResolved(Pageable pageable) {
+        return accidentRepository.findAllByResolved(pageable);
+    }
+
 
 }
