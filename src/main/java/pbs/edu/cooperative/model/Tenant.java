@@ -45,8 +45,10 @@ public class Tenant {
     @Column(name = "mail", nullable = false, unique = true)
     private String mail;
 
-    @Column(name = "water_consumption", nullable = false)
-    private float waterConsumption;
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<WaterConsumptionLog> waterConsumptionLogs = new ArrayList<>();
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
