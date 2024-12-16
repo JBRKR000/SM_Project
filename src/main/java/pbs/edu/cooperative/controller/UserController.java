@@ -19,11 +19,15 @@ import pbs.edu.cooperative.model.Accident;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.model.Invoice;
 
+import pbs.edu.cooperative.model.WaterConsumptionLog;
 import pbs.edu.cooperative.service.AccidentService;
 import pbs.edu.cooperative.service.InvoiceService;
 import pbs.edu.cooperative.config.JwtService;  // Dodaj import dla JwtService
 import pbs.edu.cooperative.service.TenantService;
+import pbs.edu.cooperative.service.WaterConsumptionLogService;
+import pbs.edu.cooperative.service.impl.WaterConsumptionLogServiceImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -36,15 +40,17 @@ public class UserController {
     private final JwtService jwtService;  // Dodaj pole dla JwtService
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final WaterConsumptionLogService waterConsumptionLogService;
 
     @Autowired
-    public UserController(InvoiceService invoiceService, TenantService tenantService, AccidentService accidentService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserController(InvoiceService invoiceService,WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.invoiceService = invoiceService;
         this.tenantService = tenantService;
         this.accidentService = accidentService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.waterConsumptionLogService = waterConsumptionLogService;
     }
     @GetMapping("/test")
     public String test() {
@@ -103,6 +109,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
     }
+    @PostMapping("/water-consumption")
+    public WaterConsumptionLog declareWaterConsumption(@RequestBody WaterConsumptionLog logRequest, @RequestHeader("Authorization") String authHeader) {
+        // Wyciągnij token i tenantId
+        String token = authHeader.substring(7); // Usuń "Bearer "
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+
+        // Pobierz Tenant
+        Tenant tenant = tenantService.getTenantById(tenantId)
+                .orElseThrow(() -> new IllegalArgumentException("Tenant not found with ID: " + tenantId));
+
+        // Przypisz Tenant do logu i ustaw datę
+        logRequest.setTenant(tenant);
+        logRequest.setConsumptionDate(LocalDate.now());
+
+        // Zapisz log
+        return waterConsumptionLogService.saveLog(logRequest);
+    }
 
 
 }
+
