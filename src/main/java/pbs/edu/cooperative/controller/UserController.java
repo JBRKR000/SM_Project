@@ -29,6 +29,7 @@ import pbs.edu.cooperative.service.impl.WaterConsumptionLogServiceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -126,12 +127,13 @@ public class UserController {
         // Zapisz log
         return waterConsumptionLogService.saveLog(logRequest);
     }
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/role")
-    public ResponseEntity<String> getUserRole(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.substring(7);
-        String role = jwtService.extractRoleFromToken(token);
-        return ResponseEntity.ok(role);
+    @GetMapping("/role")
+    public ResponseEntity<Map<String, String>> getUserRole(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Usunięcie prefiksu "Bearer "
+        String role = jwtService.extractRoleFromToken(token); // Wyciągnięcie roli z tokena
+
+        // Zwrócenie JSON-a w formacie {"role": "USER"}
+        return ResponseEntity.ok(Map.of("role", role));
     }
 
 }
