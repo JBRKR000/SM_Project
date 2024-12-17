@@ -126,7 +126,13 @@ public class UserController {
         // Zapisz log
         return waterConsumptionLogService.saveLog(logRequest);
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/role")
+    public ResponseEntity<String> getUserRole(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        String role = jwtService.extractRoleFromToken(token);
+        return ResponseEntity.ok(role);
+    }
 
 }
 

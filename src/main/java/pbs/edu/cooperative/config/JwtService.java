@@ -85,4 +85,12 @@ public class JwtService {
         return (Integer) extractClaim(token, claims -> claims.get("tenant_id"));
     }
 
+    public String extractRoleFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("role", String.class);
+    }
 }
