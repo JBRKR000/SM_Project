@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pbs.edu.cooperative.model.ApartmentStaircase;
 import pbs.edu.cooperative.service.ApartmentStaircaseService;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -43,5 +44,10 @@ public class ApartmentStaircaseController {
     @GetMapping("/block/{block_id}")
     public Page<ApartmentStaircase> getApartmentStaircasesByBlockId(@PathVariable int block_id, Pageable pageable) {
         return apartmentStaircaseService.findStaircasesByBlockId(block_id, pageable);
+    }
+
+    @GetMapping("/{staircaseId}/electricity-cost")
+    public Map<Integer, Float> getElectricityCostDistribution(@PathVariable int staircaseId, @RequestParam float totalElectricityCost) {
+        return apartmentStaircaseService.calculateElectricityCost(staircaseId, totalElectricityCost);
     }
 }
