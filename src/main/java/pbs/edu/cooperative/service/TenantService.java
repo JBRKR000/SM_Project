@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Tenant;
+import pbs.edu.cooperative.responses.ManageTenantsResponse;
 
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface TenantService {
     void deleteTenantById(int id);
     void deleteTenant(Tenant tenant);
     Page<Tenant> getAllBacklogTenants(Pageable pageable);
+
+    Page<ManageTenantsResponse> getAllManageTenants(Pageable pageable);
 }
