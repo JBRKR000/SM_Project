@@ -8,6 +8,7 @@ import pbs.edu.cooperative.model.ApartmentStaircase;
 import pbs.edu.cooperative.repository.ApartmentStaircaseRepository;
 import pbs.edu.cooperative.service.ApartmentStaircaseService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,10 @@ public class ApartmentStaircaseServiceImpl implements ApartmentStaircaseService 
     @Override
     public void deleteApartmentStaircase(ApartmentStaircase apartmentStaircase) {
         apartmentStaircaseRepository.delete(apartmentStaircase);
+    }
+
+    @Override
+    public Page<ApartmentStaircase> findStaircasesByBlockId(int blockId, Pageable pageable) {
+        return apartmentStaircaseRepository.findByBlockId(blockId, pageable);
     }
 }

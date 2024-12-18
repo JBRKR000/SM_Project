@@ -39,4 +39,9 @@ public class FlatController {
     public void deleteFlatById(@PathVariable int id) {
         flatService.deleteFlatById(id);
     }
+
+    @GetMapping("/getByStaircaseId/{id}")
+    public Page<Flat> getFlatsByStaircaseId(@PathVariable int id, Pageable pageable) {
+        return flatService.getFlatsByStaircaseId(id, pageable);
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Flat;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,4 +15,6 @@ public interface FlatService {
     Page<Flat> getAllFlats(Pageable pageable);
     void deleteFlatById(int id);
     void deleteFlat(Flat flat);
+    public List<Integer> getUnoccupiedFlats(int entranceId);
+    Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable);
 }

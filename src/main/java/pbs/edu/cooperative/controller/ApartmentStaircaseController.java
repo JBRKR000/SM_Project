@@ -39,4 +39,9 @@ public class ApartmentStaircaseController {
     public void deleteApartmentStaircaseById(@PathVariable int id) {
         apartmentStaircaseService.deleteApartmentStaircaseById(id);
     }
+    
+    @GetMapping("/block/{block_id}")
+    public Page<ApartmentStaircase> getApartmentStaircasesByBlockId(@PathVariable int block_id, Pageable pageable) {
+        return apartmentStaircaseService.findStaircasesByBlockId(block_id, pageable);
+    }
 }

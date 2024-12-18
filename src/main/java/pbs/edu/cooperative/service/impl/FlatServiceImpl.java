@@ -8,6 +8,7 @@ import pbs.edu.cooperative.model.Flat;
 import pbs.edu.cooperative.repository.FlatRepository;
 import pbs.edu.cooperative.service.FlatService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,15 @@ public class FlatServiceImpl implements FlatService {
     @Override
     public void deleteFlat(Flat flat) {
         flatRepository.delete(flat);
+    }
+
+    @Override
+    public List<Integer> getUnoccupiedFlats(int entranceId) {
+        return flatRepository.findUnoccupiedFlatsByEntranceId(entranceId);
+    }
+
+    @Override
+    public Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable) {
+        return flatRepository.getFlatsByApartmentStaircaseId(staircaseId, pageable);
     }
 }

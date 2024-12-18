@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Block;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,4 +15,6 @@ public interface BlockService {
     Page<Block> getAllBlocks(Pageable pageable);
     void deleteBlockById(int id);
     void deleteBlock(Block block);
+    public List<Integer> getEntrancesByBlockAddress(String city, String street);
+    public Integer getEntranceId(int blockId, int entranceNumber);
 }

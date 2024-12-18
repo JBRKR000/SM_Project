@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.ApartmentStaircase;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,4 +15,5 @@ public interface ApartmentStaircaseService {
     Page<ApartmentStaircase> getAllApartmentStaircases(Pageable pageable);
     void deleteApartmentStaircaseById(int id);
     void deleteApartmentStaircase(ApartmentStaircase apartmentStaircase);
+    Page<ApartmentStaircase> findStaircasesByBlockId(int blockId, Pageable pageable);
 }

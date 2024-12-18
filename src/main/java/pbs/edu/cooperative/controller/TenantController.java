@@ -41,4 +41,6 @@ public class TenantController {
     public void deleteTenantById(@PathVariable int id) {
         tenantService.deleteTenantById(id);
     }
+
+
 }
