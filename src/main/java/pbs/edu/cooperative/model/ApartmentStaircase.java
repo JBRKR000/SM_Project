@@ -26,6 +26,9 @@ public class ApartmentStaircase {
     @Column(name = "shared_surface")
     private float sharedSurface;
 
+    @Column(name = "staircase_number")
+    private int staircaseNumber;
+
     @ManyToOne
     @JoinColumn(name = "block_id", nullable = false)
     @JsonBackReference
