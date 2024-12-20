@@ -15,7 +15,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({"flat"})
 public class Accident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

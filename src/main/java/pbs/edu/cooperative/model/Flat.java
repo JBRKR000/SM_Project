@@ -29,7 +29,6 @@ public class Flat {
     private float surface;
 
     @OneToOne(mappedBy = "flat")
-    @JsonBackReference
     private Tenant tenant;
 
     @OneToMany(mappedBy = "flat", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,7 +37,6 @@ public class Flat {
 
     @ManyToOne
     @JoinColumn(name = "apartment_staircase_id", nullable = false)
-    @JsonBackReference
     private ApartmentStaircase apartmentStaircase;
 
 }
