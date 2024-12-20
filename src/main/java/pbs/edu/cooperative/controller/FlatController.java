@@ -44,4 +44,8 @@ public class FlatController {
     public Page<Flat> getFlatsByStaircaseId(@PathVariable int id, Pageable pageable) {
         return flatService.getFlatsByStaircaseId(id, pageable);
     }
+    @GetMapping("/getByTenantId/{tenantId}")
+    public Flat getFlatByTenantId(@PathVariable int tenantId) {
+        return flatService.getFlatByTenantId(tenantId);
+    }
 }

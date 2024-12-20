@@ -55,4 +55,9 @@ public class FlatServiceImpl implements FlatService {
     public Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable) {
         return flatRepository.getFlatsByApartmentStaircaseId(staircaseId, pageable);
     }
+
+    @Override
+    public Flat getFlatByTenantId(int tenantId) {
+        return flatRepository.getFlatByTenantId(tenantId);
+    }
 }

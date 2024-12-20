@@ -17,4 +17,5 @@ public interface FlatService {
     void deleteFlat(Flat flat);
     public List<Integer> getUnoccupiedFlats(int entranceId);
     Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable);
+    Flat getFlatByTenantId(int tenantId);
 }
