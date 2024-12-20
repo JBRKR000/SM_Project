@@ -50,4 +50,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     public Page<Invoice> getInvoicesByTenantId(int tenantId ,Pageable pageable) {
         return invoiceRepository.findByTenant_TenantId(tenantId, pageable);
     }
+
+    @Override
+    public Page<Invoice> getPaidInvoicesByTenantId(Integer tenantId, Pageable pageable) {
+        return invoiceRepository.findByTenantIdAndIsPaidTrue(tenantId, pageable);
+    }
+    @Override
+    public Page<Invoice> getUnpaidInvoicesByTenantId(Integer tenantId, Pageable pageable) {
+        return invoiceRepository.findByTenantIdAndIsPaidFalse(tenantId, pageable);
+    }
 }

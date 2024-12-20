@@ -16,4 +16,7 @@ public interface InvoiceService {
     void deleteInvoiceById(int id);
     void deleteInvoice(Invoice invoice);
     Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable);  // Zmieniono z List<Invoice> na Page<Invoice>
+    Page<Invoice> getPaidInvoicesByTenantId(Integer tenantId, Pageable pageable);
+    Page<Invoice> getUnpaidInvoicesByTenantId(Integer tenantId, Pageable pageable);
+
 }

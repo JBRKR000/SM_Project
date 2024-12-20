@@ -63,6 +63,19 @@ public class UserController {
         return invoiceService.getInvoicesByTenantId(tenantId, pageable);
     }
 
+    @GetMapping("/paidinvoices")
+    public Page<Invoice> getPaidInvoicesByTenantId(Pageable pageable, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);  // Usuń prefiks "Bearer "
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        return invoiceService.getPaidInvoicesByTenantId(tenantId, pageable);
+    }
+    @GetMapping("/unpaidinvoices")
+    public Page<Invoice> getUnpaidInvoicesByTenantId(Pageable pageable, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);  // Usuń prefiks "Bearer "
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        return invoiceService.getUnpaidInvoicesByTenantId(tenantId, pageable);
+    }
+
     @PostMapping("/accidents")
     public Accident createAccident(@RequestBody Accident accidentRequest, @RequestHeader("Authorization") String authHeader) {
         // Wyciągnij token i tenantId
