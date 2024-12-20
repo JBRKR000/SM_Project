@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -21,7 +22,8 @@ public class Accident {
     @Column(name = "accident_id")
     private int accidentId;
 
-    @Column(name="accident_date", nullable=false)
+    @CreationTimestamp
+    @Column(name = "accident_date", nullable = false, updatable = false)
     private LocalDateTime accidentDate;
 
     @Column(name="description", nullable = false)

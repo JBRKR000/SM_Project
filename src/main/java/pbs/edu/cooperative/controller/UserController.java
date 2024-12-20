@@ -15,21 +15,16 @@ import org.springframework.web.bind.annotation.*;
 import pbs.edu.cooperative.User.User;
 import pbs.edu.cooperative.User.UserRepository;
 import pbs.edu.cooperative.auth.ChangePasswordRequest;
-import pbs.edu.cooperative.model.Accident;
-import pbs.edu.cooperative.model.Tenant;
-import pbs.edu.cooperative.model.Invoice;
+import pbs.edu.cooperative.model.*;
 
-import pbs.edu.cooperative.model.WaterConsumptionLog;
-import pbs.edu.cooperative.service.AccidentService;
-import pbs.edu.cooperative.service.InvoiceService;
+import pbs.edu.cooperative.service.*;
 import pbs.edu.cooperative.config.JwtService;  // Dodaj import dla JwtService
-import pbs.edu.cooperative.service.TenantService;
-import pbs.edu.cooperative.service.WaterConsumptionLogService;
 import pbs.edu.cooperative.service.impl.WaterConsumptionLogServiceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -38,16 +33,18 @@ public class UserController {
     private final InvoiceService invoiceService;
     private final TenantService tenantService;
     private final AccidentService accidentService;
+    private final FlatService flatService;
     private final JwtService jwtService;  // Dodaj pole dla JwtService
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final WaterConsumptionLogService waterConsumptionLogService;
 
     @Autowired
-    public UserController(InvoiceService invoiceService,WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserController(InvoiceService invoiceService, WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, FlatService flatService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.invoiceService = invoiceService;
         this.tenantService = tenantService;
         this.accidentService = accidentService;
+        this.flatService = flatService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -135,6 +132,24 @@ public class UserController {
         // Zwrócenie JSON-a w formacie {"role": "USER"}
         return ResponseEntity.ok(Map.of("role", role));
     }
+    @GetMapping("/getByTenantId/{tenantId}")
+    public Integer getFlatByTenantId(@PathVariable int tenantId) {
+        return flatService.getFlatIdByTenantId(tenantId);
+    }
 
+    @PostMapping("/saveAccident")
+    public Accident saveAccident(@RequestBody Map<Object,String> accidentData) {
+        int flatId = Integer.parseInt(accidentData.get("flat_id"));
+        Optional<Flat> flat = flatService.getFlatById(flatId);
+        if (flat.isEmpty()) {
+            throw new IllegalArgumentException("Flat not found with ID: " + flatId);
+        }
+        Accident accident = new Accident();
+        accident.setAccidentDate(LocalDateTime.now());
+        accident.setResolved(false);
+        accident.setDescription(accidentData.get("description"));
+        accident.setFlat(flat.get());
+        return accidentService.saveAccident(accident);
+    }
 }
 

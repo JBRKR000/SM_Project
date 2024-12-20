@@ -18,6 +18,6 @@ public interface FlatRepository extends JpaRepository<Flat, Integer> {
     @Query("SELECT f FROM Flat f WHERE f.apartmentStaircase.apartmentStaircaseId = :staircaseId")
     Page<Flat> getFlatsByApartmentStaircaseId(int staircaseId, Pageable pageable);
 
-    @Query("SELECT f FROM Flat f WHERE f.tenant.tenantId = :tenantId")
-    Flat getFlatByTenantId(int tenantId);
+    @Query("SELECT f.flatId FROM Flat f WHERE f.tenant.tenantId = :tenantId")
+    Integer getFlatIdByTenantId(int tenantId);
 }

@@ -57,7 +57,9 @@ public class FlatServiceImpl implements FlatService {
     }
 
     @Override
-    public Flat getFlatByTenantId(int tenantId) {
-        return flatRepository.getFlatByTenantId(tenantId);
+    public Integer getFlatIdByTenantId(int tenantId) {
+        return flatRepository.getFlatIdByTenantId(tenantId);
     }
+
+
 }
