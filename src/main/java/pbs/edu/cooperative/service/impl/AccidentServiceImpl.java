@@ -31,7 +31,7 @@ public class AccidentServiceImpl implements AccidentService {
     }
 
     @Override
-    public Page<Accident> getAccidents(Pageable pageable) {
+    public Page<Accident> getAllAccidents(Pageable pageable) {
         return accidentRepository.findAll(pageable);
     }
 

@@ -12,7 +12,7 @@ public interface AccidentService {
     Optional<Accident> getAccident(Integer accidentId);
     Accident saveAccident(Accident accident);
 
-    Page<Accident> getAccidents(Pageable pageable);
+    Page<Accident> getAllAccidents(Pageable pageable);
     void deleteAccidentById(Integer accidentId);
     void deleteAccident(Accident accident);
     Page<Accident> getAccidentsByFlatId(int flatId, Pageable pageable);
