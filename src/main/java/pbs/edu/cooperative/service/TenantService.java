@@ -18,4 +18,6 @@ public interface TenantService {
     Page<Tenant> getAllBacklogTenants(Pageable pageable);
 
     Page<ManageTenantsResponse> getAllManageTenants(Pageable pageable);
+
+    Tenant getTenantByFlatId(int flatId);
 }

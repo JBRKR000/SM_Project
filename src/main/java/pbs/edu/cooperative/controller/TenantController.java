@@ -68,5 +68,9 @@ public class TenantController {
         tenantService.deleteTenantById(id);
     }
 
+    @GetMapping("/getTenantByFlatId/{flatId}")
+    public Tenant getTenantByFlatId(@PathVariable int flatId) {
+        return tenantService.getTenantByFlatId(flatId);
+    }
 
 }

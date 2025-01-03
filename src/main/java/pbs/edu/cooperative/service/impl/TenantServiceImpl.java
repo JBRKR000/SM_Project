@@ -73,4 +73,9 @@ public class TenantServiceImpl implements TenantService {
                         // Uzyskanie klatki z Flat
                 ));
     }
+
+    @Override
+    public Tenant getTenantByFlatId(int flatId) {
+        return tenantRepository.getTenantByFlatId(flatId);
+    }
 }

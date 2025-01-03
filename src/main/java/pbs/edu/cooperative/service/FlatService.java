@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Flat;
+import pbs.edu.cooperative.model.Tenant;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,5 @@ public interface FlatService {
     public List<Integer> getUnoccupiedFlats(int entranceId);
     Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable);
     Integer getFlatIdByTenantId(int tenantId);
+    Flat getFlatByTenantId(int tenantId);
 }

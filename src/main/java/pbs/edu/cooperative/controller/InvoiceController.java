@@ -39,4 +39,5 @@ public class InvoiceController {
     public void deleteInvoiceById(@PathVariable int id) {
         invoiceService.deleteInvoiceById(id);
     }
+
 }

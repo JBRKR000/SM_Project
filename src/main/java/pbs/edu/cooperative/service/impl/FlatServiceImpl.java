@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Flat;
+import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.repository.FlatRepository;
 import pbs.edu.cooperative.service.FlatService;
 
@@ -60,6 +61,9 @@ public class FlatServiceImpl implements FlatService {
     public Integer getFlatIdByTenantId(int tenantId) {
         return flatRepository.getFlatIdByTenantId(tenantId);
     }
-
+    @Override
+    public Flat getFlatByTenantId(int tenantId) {
+        return flatRepository.getFlatByTenantId(tenantId);
+    }
 
 }

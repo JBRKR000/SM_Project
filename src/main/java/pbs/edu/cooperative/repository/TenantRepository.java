@@ -13,4 +13,7 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
     @Query("select t from Tenant t where t.isBacklog")
     Page<Tenant> findAllTenantsByIsBacklog(Pageable pageable);
 
+    @Query("select t from Tenant t where t.flat.flatId = :flatId")
+    Tenant getTenantByFlatId(int flatId);
+
 }
