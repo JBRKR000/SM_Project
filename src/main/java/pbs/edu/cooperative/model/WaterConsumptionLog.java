@@ -29,4 +29,7 @@ public class WaterConsumptionLog {
 
     @Column(name = "consumption", nullable = false)
     private float consumption;
+
+    @Column(name = "meter_reading", nullable = false)
+    private float meterReading;
 }

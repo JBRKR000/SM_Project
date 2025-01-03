@@ -23,6 +23,7 @@ import pbs.edu.cooperative.service.impl.WaterConsumptionLogServiceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -120,7 +121,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
         }
     }
-    @PostMapping("/water-consumption")
+    @PostMapping("/send-consumption")
     public WaterConsumptionLog declareWaterConsumption(@RequestBody WaterConsumptionLog logRequest, @RequestHeader("Authorization") String authHeader) {
         // Wyciągnij token i tenantId
         String token = authHeader.substring(7); // Usuń "Bearer "
@@ -137,6 +138,15 @@ public class UserController {
         // Zapisz log
         return waterConsumptionLogService.saveLog(logRequest);
     }
+
+    @GetMapping("/water-consumption")
+    public List<WaterConsumptionLog> getWaterConsumptionLogs(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Remove "Bearer " prefix
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        return waterConsumptionLogService.getLogsByTenantId(tenantId);
+    }
+
+
     @GetMapping("/role")
     public ResponseEntity<Map<String, String>> getUserRole(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.substring(7); // Usunięcie prefiksu "Bearer "

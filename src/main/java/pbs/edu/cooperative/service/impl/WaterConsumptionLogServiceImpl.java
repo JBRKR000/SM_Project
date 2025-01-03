@@ -6,7 +6,9 @@ import pbs.edu.cooperative.model.WaterConsumptionLog;
 import pbs.edu.cooperative.repository.WaterConsumptionLogRepository;
 import pbs.edu.cooperative.service.WaterConsumptionLogService;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WaterConsumptionLogServiceImpl implements WaterConsumptionLogService {
@@ -18,8 +20,11 @@ public class WaterConsumptionLogServiceImpl implements WaterConsumptionLogServic
         this.logRepository = logRepository;
     }
 
-    @Override
     public WaterConsumptionLog saveLog(WaterConsumptionLog log) {
+        Optional<WaterConsumptionLog> firstLogOpt = logRepository
+                .findFirstByTenantIdAndConsumptionDateMonth(log.getTenant().getTenantId(), log.getConsumptionDate().getMonthValue());
+        float defaultMeterReading = firstLogOpt.map(WaterConsumptionLog::getMeterReading).orElse(0.0f);
+        log.setMeterReading(defaultMeterReading);
         return logRepository.save(log);
     }
 

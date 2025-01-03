@@ -9,10 +9,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pbs.edu.cooperative.model.Flat;
 import pbs.edu.cooperative.model.Tenant;
+import pbs.edu.cooperative.model.WaterConsumptionLog;
 import pbs.edu.cooperative.responses.ManageTenantsResponse;
 import pbs.edu.cooperative.service.FlatService;
 import pbs.edu.cooperative.service.TenantService;
+import pbs.edu.cooperative.service.WaterConsumptionLogService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,11 +25,13 @@ public class TenantController {
 
     private final TenantService tenantService;
     private final FlatService flatService;
+    private final WaterConsumptionLogService waterConsumptionLogService;
 
     @Autowired
-    public TenantController(TenantService tenantService, FlatService flatService) {
+    public TenantController(TenantService tenantService, FlatService flatService, WaterConsumptionLogService waterConsumptionLogService) {
         this.tenantService = tenantService;
         this.flatService = flatService;
+        this.waterConsumptionLogService = waterConsumptionLogService;
     }
 
     @GetMapping("/{id}")
@@ -72,5 +77,6 @@ public class TenantController {
     public Tenant getTenantByFlatId(@PathVariable int flatId) {
         return tenantService.getTenantByFlatId(flatId);
     }
+
 
 }
