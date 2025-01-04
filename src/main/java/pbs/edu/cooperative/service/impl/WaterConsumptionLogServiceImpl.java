@@ -7,6 +7,7 @@ import pbs.edu.cooperative.repository.WaterConsumptionLogRepository;
 import pbs.edu.cooperative.service.WaterConsumptionLogService;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +32,13 @@ public class WaterConsumptionLogServiceImpl implements WaterConsumptionLogServic
     @Override
     public List<WaterConsumptionLog> getLogsByTenantId(int tenantId) {
         return logRepository.findByTenantTenantId(tenantId);
+    }
+
+    @Override
+    public Optional<WaterConsumptionLog> getLastMonthLogByTenantId(int tenantId) {
+        YearMonth lastMonth = YearMonth.now().minusMonths(1);
+        LocalDate startDate = lastMonth.atDay(1);
+        LocalDate endDate = lastMonth.atEndOfMonth().plusDays(1);
+        return logRepository.findLastLogByTenantIdAndLastMonth(tenantId, startDate, endDate);
     }
 }

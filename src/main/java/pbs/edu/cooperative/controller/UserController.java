@@ -39,9 +39,10 @@ public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final WaterConsumptionLogService waterConsumptionLogService;
+    private final WaterCostService waterCostService;
 
     @Autowired
-    public UserController(InvoiceService invoiceService, WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, FlatService flatService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserController(InvoiceService invoiceService, WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, FlatService flatService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, WaterCostService waterCostService) {
         this.invoiceService = invoiceService;
         this.tenantService = tenantService;
         this.accidentService = accidentService;
@@ -50,6 +51,7 @@ public class UserController {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.waterConsumptionLogService = waterConsumptionLogService;
+        this.waterCostService = waterCostService;
     }
     @GetMapping("/test")
     public String test() {
@@ -146,6 +148,14 @@ public class UserController {
         return waterConsumptionLogService.getLogsByTenantId(tenantId);
     }
 
+    @GetMapping("/last-month-water-consumption")
+    public WaterConsumptionLog getLastMonthWaterConsumptionLog(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Remove "Bearer " prefix
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        return waterConsumptionLogService.getLastMonthLogByTenantId(tenantId)
+                .orElseThrow(() -> new IllegalArgumentException("No logs found for tenant with ID: " + tenantId));
+    }
+
 
     @GetMapping("/role")
     public ResponseEntity<Map<String, String>> getUserRole(@RequestHeader("Authorization") String authHeader) {
@@ -173,6 +183,10 @@ public class UserController {
         accident.setDescription(accidentData.get("description"));
         accident.setFlat(flat.get());
         return accidentService.saveAccident(accident);
+    }
+    @GetMapping("/waterCost")
+    public Optional<WaterCost> getWaterCost() {
+        return waterCostService.getWaterCost();
     }
 }
 

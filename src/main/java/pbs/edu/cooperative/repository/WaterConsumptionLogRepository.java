@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pbs.edu.cooperative.model.WaterConsumptionLog;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,8 @@ public interface WaterConsumptionLogRepository extends JpaRepository<WaterConsum
 
     @Query("SELECT w FROM WaterConsumptionLog w WHERE w.tenant.tenantId = :tenantId AND MONTH(w.consumptionDate) = :monthValue ORDER BY w.logId DESC limit 1")
     Optional<WaterConsumptionLog> findFirstByTenantIdAndConsumptionDateMonth(int tenantId, int monthValue);
+
+
+    @Query("SELECT w FROM WaterConsumptionLog w WHERE w.tenant.tenantId = :tenantId AND w.consumptionDate BETWEEN :startDate AND :endDate ORDER BY w.logId DESC limit 1")
+    Optional<WaterConsumptionLog> findLastLogByTenantIdAndLastMonth(int tenantId, LocalDate startDate, LocalDate endDate);
 }
