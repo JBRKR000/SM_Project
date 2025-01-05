@@ -1,10 +1,9 @@
 package pbs.edu.cooperative.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -13,6 +12,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class WaterConsumptionLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class WaterConsumptionLog {
 
     @ManyToOne
     @JoinColumn(name = "tenant_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("tenant-waterConsumptionLogs")
     private Tenant tenant;
 
     @Column(name = "consumption_date", nullable = false)
@@ -30,6 +31,9 @@ public class WaterConsumptionLog {
     @Column(name = "consumption", nullable = false)
     private float consumption;
 
-    @Column(name = "meter_reading", nullable = false)
-    private float meterReading;
+    @ManyToOne
+    @JoinColumn(name = "meter_reading_id", nullable = false)
+    @JsonBackReference("meterReading-waterConsumptionLogs")
+    private MeterReading meterReading;
+
 }

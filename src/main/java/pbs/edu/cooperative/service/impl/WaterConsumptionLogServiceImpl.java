@@ -2,7 +2,9 @@ package pbs.edu.cooperative.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pbs.edu.cooperative.model.MeterReading;
 import pbs.edu.cooperative.model.WaterConsumptionLog;
+import pbs.edu.cooperative.repository.MeterReadingRepository;
 import pbs.edu.cooperative.repository.WaterConsumptionLogRepository;
 import pbs.edu.cooperative.service.WaterConsumptionLogService;
 
@@ -15,17 +17,15 @@ import java.util.Optional;
 public class WaterConsumptionLogServiceImpl implements WaterConsumptionLogService {
 
     private final WaterConsumptionLogRepository logRepository;
+    private final MeterReadingRepository meterReadingRepository;
 
     @Autowired
-    public WaterConsumptionLogServiceImpl(WaterConsumptionLogRepository logRepository) {
+    public WaterConsumptionLogServiceImpl(WaterConsumptionLogRepository logRepository, MeterReadingRepository meterReadingRepository) {
         this.logRepository = logRepository;
+        this.meterReadingRepository = meterReadingRepository;
     }
 
     public WaterConsumptionLog saveLog(WaterConsumptionLog log) {
-        Optional<WaterConsumptionLog> firstLogOpt = logRepository
-                .findFirstByTenantIdAndConsumptionDateMonth(log.getTenant().getTenantId(), log.getConsumptionDate().getMonthValue());
-        float defaultMeterReading = firstLogOpt.map(WaterConsumptionLog::getMeterReading).orElse(0.0f);
-        log.setMeterReading(defaultMeterReading);
         return logRepository.save(log);
     }
 

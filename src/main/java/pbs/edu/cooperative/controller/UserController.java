@@ -40,9 +40,10 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final WaterConsumptionLogService waterConsumptionLogService;
     private final WaterCostService waterCostService;
+    private final MeterReadingService meterReadingService;
 
     @Autowired
-    public UserController(InvoiceService invoiceService, WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, FlatService flatService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, WaterCostService waterCostService) {
+    public UserController(InvoiceService invoiceService, WaterConsumptionLogService waterConsumptionLogService, TenantService tenantService, AccidentService accidentService, FlatService flatService, JwtService jwtService, UserRepository userRepository, PasswordEncoder passwordEncoder, WaterCostService waterCostService, MeterReadingService meterReadingService) {
         this.invoiceService = invoiceService;
         this.tenantService = tenantService;
         this.accidentService = accidentService;
@@ -52,6 +53,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
         this.waterConsumptionLogService = waterConsumptionLogService;
         this.waterCostService = waterCostService;
+        this.meterReadingService = meterReadingService;
     }
     @GetMapping("/test")
     public String test() {
@@ -124,7 +126,10 @@ public class UserController {
         }
     }
     @PostMapping("/send-consumption")
-    public WaterConsumptionLog declareWaterConsumption(@RequestBody WaterConsumptionLog logRequest, @RequestHeader("Authorization") String authHeader) {
+    public WaterConsumptionLog declareWaterConsumption(
+            @RequestBody WaterConsumptionLog logRequest,
+            @RequestHeader("Authorization") String authHeader) {
+
         // Wyciągnij token i tenantId
         String token = authHeader.substring(7); // Usuń "Bearer "
         int tenantId = jwtService.extractTenantIdFromToken(token);
@@ -133,27 +138,17 @@ public class UserController {
         Tenant tenant = tenantService.getTenantById(tenantId)
                 .orElseThrow(() -> new IllegalArgumentException("Tenant not found with ID: " + tenantId));
 
-        // Przypisz Tenant do logu i ustaw datę
+        // Pobierz meter_reading_id powiązane z tenantId
+        MeterReading meterReading = meterReadingService.getMeterReading(tenantId)
+                .orElseThrow(() -> new IllegalArgumentException("Meter Reading not found for Tenant ID: " + tenantId));
+
+        // Przypisz Tenant i MeterReading do logu oraz ustaw datę
         logRequest.setTenant(tenant);
+        logRequest.setMeterReading(meterReading);
         logRequest.setConsumptionDate(LocalDate.now());
 
         // Zapisz log
         return waterConsumptionLogService.saveLog(logRequest);
-    }
-
-    @GetMapping("/water-consumption")
-    public List<WaterConsumptionLog> getWaterConsumptionLogs(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.substring(7); // Remove "Bearer " prefix
-        int tenantId = jwtService.extractTenantIdFromToken(token);
-        return waterConsumptionLogService.getLogsByTenantId(tenantId);
-    }
-
-    @GetMapping("/last-month-water-consumption")
-    public WaterConsumptionLog getLastMonthWaterConsumptionLog(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.substring(7); // Remove "Bearer " prefix
-        int tenantId = jwtService.extractTenantIdFromToken(token);
-        return waterConsumptionLogService.getLastMonthLogByTenantId(tenantId)
-                .orElseThrow(() -> new IllegalArgumentException("No logs found for tenant with ID: " + tenantId));
     }
 
 
@@ -187,6 +182,29 @@ public class UserController {
     @GetMapping("/waterCost")
     public Optional<WaterCost> getWaterCost() {
         return waterCostService.getWaterCost();
+    }
+
+    @GetMapping("/getLatestMeterReading")
+    public ResponseEntity<MeterReading> getLatestMeterReading(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        Optional<MeterReading> meterReading = meterReadingService.getMeterReading(tenantId);
+        if (meterReading.isPresent()) {
+            return ResponseEntity.ok(meterReading.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+    @GetMapping("/getLastMonthMeterReading")
+    public ResponseEntity<MeterReading> getLastMonthMeterReading(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7);
+        int tenantId = jwtService.extractTenantIdFromToken(token);
+        Optional<MeterReading> lastMonthMeterReading = meterReadingService.getLastMonthMeterReading(tenantId);
+        if (lastMonthMeterReading.isPresent()) {
+            return ResponseEntity.ok(lastMonthMeterReading.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
 

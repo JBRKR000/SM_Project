@@ -46,7 +46,7 @@ public class Tenant {
     private String mail;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("tenant-waterConsumptionLogs")
     private List<WaterConsumptionLog> waterConsumptionLogs = new ArrayList<>();
 
 
