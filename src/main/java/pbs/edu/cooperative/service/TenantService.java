@@ -22,4 +22,6 @@ public interface TenantService {
     Tenant getTenantByFlatId(int flatId);
 
     Optional<Tenant> getTenantByNameAndSurname(String tenantName, String tenantSurname);
+
+    Page<Tenant> getTenantByIsBacklog(boolean isBacklog, Pageable pageable);
 }

@@ -83,4 +83,10 @@ public class TenantServiceImpl implements TenantService {
     public Optional<Tenant> getTenantByNameAndSurname(String tenantName, String tenantSurname) {
         return tenantRepository.findTenantByNameAndSurname(tenantName, tenantSurname);
     }
+
+    @Override
+    public Page<Tenant> getTenantByIsBacklog(boolean isBacklog, Pageable pageable) {
+        return tenantRepository.getTenantByIsBacklog(isBacklog, pageable);
+    }
+
 }

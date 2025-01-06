@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -78,5 +79,24 @@ public class TenantController {
         return tenantService.getTenantByFlatId(flatId);
     }
 
+    @GetMapping("/getTenantByIsBacklog/{isBacklog}")
+    public Page<Tenant> getTenantByIsBacklog(@PathVariable boolean isBacklog, Pageable pageable) {
+        return tenantService.getTenantByIsBacklog(isBacklog, pageable);
+    }
+    @GetMapping("/getAllTenants")
+    public Page<Tenant> getAllTenants(Pageable pageable) {
+        return tenantService.getAllTenants(pageable);
+    }
 
+    @PatchMapping("/{id}/updateBacklog")
+    public ResponseEntity<Tenant> updateTenantBacklog(@PathVariable int id, @RequestBody Map<String, Boolean> updateData) {
+        Optional<Tenant> tenantOptional = tenantService.getTenantById(id);
+        if (tenantOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Tenant tenant = tenantOptional.get();
+        tenant.setIsBacklog(updateData.get("isBacklog"));
+        Tenant updatedTenant = tenantService.saveTenant(tenant);
+        return ResponseEntity.ok(updatedTenant);
+    }
 }
