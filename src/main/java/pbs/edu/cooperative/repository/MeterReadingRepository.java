@@ -1,6 +1,7 @@
 // MeterReadingRepository.java
 package pbs.edu.cooperative.repository;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,6 @@ public interface MeterReadingRepository extends JpaRepository<MeterReading, Inte
 """, nativeQuery = true)
     Optional<MeterReading> getLastMonthMeterReadingByTenantId(@Param("tenantId") int tenantId);
 
+    @Query("SELECT m FROM MeterReading m")
+    Page<MeterReading> getAllMeterReadings(Pageable pageable);
 }

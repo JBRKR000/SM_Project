@@ -5,10 +5,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pbs.edu.cooperative.model.Accident;
+import pbs.edu.cooperative.model.MeterReading;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.model.WaterCost;
+import pbs.edu.cooperative.responses.MeterReadingRequest;
 import pbs.edu.cooperative.responses.WaterCostRequest;
 import pbs.edu.cooperative.service.AccidentService;
+import pbs.edu.cooperative.service.MeterReadingService;
 import pbs.edu.cooperative.service.TenantService;
 import pbs.edu.cooperative.service.WaterCostService;
 
@@ -21,12 +24,14 @@ public class AdminController {
     TenantService tenantService;
     AccidentService accidentService;
     WaterCostService waterCostService;
+    MeterReadingService meterReadingService;
 
     @Autowired
-    public AdminController(TenantService tenantService, AccidentService accidentService, WaterCostService waterCostService) {
+    public AdminController(TenantService tenantService, AccidentService accidentService, WaterCostService waterCostService, MeterReadingService meterReadingService) {
         this.tenantService = tenantService;
         this.accidentService = accidentService;
         this.waterCostService = waterCostService;
+        this.meterReadingService = meterReadingService;
     }
 
     @GetMapping("/all-data")
@@ -52,5 +57,24 @@ public class AdminController {
         return waterCostService.getWaterCost();
     }
 
+    @GetMapping("/allMeterReadings")
+    public Page<MeterReading> getAllMeterReadings(Pageable pageable) {
+        return meterReadingService.getAllWaterReadings(pageable);
+    }
 
+    @PostMapping("/saveMeterReading")
+    public ResponseEntity<MeterReading> saveMeterReading(@RequestBody MeterReadingRequest meterReadingRequest) {
+        Optional<Tenant> tenant = tenantService.getTenantByNameAndSurname(meterReadingRequest.getTenantName(), meterReadingRequest.getTenantSurname());
+        if (tenant.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        MeterReading meterReading = new MeterReading();
+        meterReading.setMeterReading((float) meterReadingRequest.getReading());
+        meterReading.setReadingDate(meterReadingRequest.getReadingDate());
+        meterReading.setTenant(tenant.get());
+
+        MeterReading savedMeterReading = meterReadingService.saveMeterReading(meterReading);
+        return ResponseEntity.ok(savedMeterReading);
+    }
 }

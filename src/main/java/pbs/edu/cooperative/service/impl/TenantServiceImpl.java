@@ -78,4 +78,9 @@ public class TenantServiceImpl implements TenantService {
     public Tenant getTenantByFlatId(int flatId) {
         return tenantRepository.getTenantByFlatId(flatId);
     }
+
+    @Override
+    public Optional<Tenant> getTenantByNameAndSurname(String tenantName, String tenantSurname) {
+        return tenantRepository.findTenantByNameAndSurname(tenantName, tenantSurname);
+    }
 }

@@ -20,4 +20,6 @@ public interface TenantService {
     Page<ManageTenantsResponse> getAllManageTenants(Pageable pageable);
 
     Tenant getTenantByFlatId(int flatId);
+
+    Optional<Tenant> getTenantByNameAndSurname(String tenantName, String tenantSurname);
 }

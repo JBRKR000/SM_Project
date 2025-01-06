@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.User;
 import pbs.edu.cooperative.model.Tenant;
 
+import java.util.Optional;
+
 
 public interface TenantRepository extends JpaRepository<Tenant, Integer> {
 
@@ -16,4 +18,6 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
     @Query("select t from Tenant t where t.flat.flatId = :flatId")
     Tenant getTenantByFlatId(int flatId);
 
+    @Query("select t from Tenant t where t.name = :name and t.surname = :surname")
+    Optional<Tenant> findTenantByNameAndSurname(String name, String surname);
 }

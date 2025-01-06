@@ -1,5 +1,6 @@
 package pbs.edu.cooperative.service.impl;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.MeterReading;
@@ -40,6 +41,11 @@ public class MeterReadingServiceImpl implements MeterReadingService {
     @Override
     public void deleteMeterReading(MeterReading meterReading) {
         meterReadingRepository.delete(meterReading);
+    }
+
+    @Override
+    public Page<MeterReading> getAllWaterReadings(Pageable pageable) {
+        return meterReadingRepository.getAllMeterReadings(pageable);
     }
 
 }

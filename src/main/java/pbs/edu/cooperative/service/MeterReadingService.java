@@ -1,5 +1,6 @@
 package pbs.edu.cooperative.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.MeterReading;
@@ -13,4 +14,5 @@ public interface MeterReadingService {
     Optional<MeterReading> getLastMonthMeterReading(int tenantId);
     MeterReading updateMeterReading(MeterReading meterReading);
     void deleteMeterReading(MeterReading meterReading);
+    Page<MeterReading> getAllWaterReadings(Pageable pageable);
 }
