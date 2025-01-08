@@ -48,4 +48,9 @@ public class FlatController {
     public Flat getFlatByTenantId(@PathVariable int tenantId) {
         return flatService.getFlatByTenantId(tenantId);
     }
+
+    @GetMapping("/getByTenantNameAndSurname/{name}/{surname}")
+    public Flat getFlatByTenantNameAndSurname(@PathVariable String name, @PathVariable String surname) {
+        return flatService.getByTenantNameAndSurname(name, surname);
+    }
 }

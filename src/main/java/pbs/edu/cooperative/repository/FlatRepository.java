@@ -24,4 +24,7 @@ public interface FlatRepository extends JpaRepository<Flat, Integer> {
 
     @Query("SELECT f FROM Flat f WHERE f.tenant.tenantId = :tenantId")
     Flat getFlatByTenantId(int tenantId);
+
+    @Query("SELECT f FROM Flat f WHERE f.tenant.name = :name AND f.tenant.surname = :surname")
+    Flat getByTenantNameAndSurname(String name, String surname);
 }
