@@ -63,7 +63,32 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-    public static void getToken(){
+    public void logout(String token) {
+        String username = jwtService.extractUsername(token); // Wyciągnij nazwę użytkownika z tokenu
+        var user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + username));
 
+        if (jwtService.isTokenValid(token, user)) {
+            jwtService.revokeToken(token);
+        }
     }
+    public boolean authenticateToken(String token) {
+        try {
+            // Wyciągamy nazwę użytkownika z tokenu
+            String username = jwtService.extractUsername(token);
+
+            // Szukamy użytkownika po wyciągniętej nazwie
+            var user = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + username));
+
+            // Sprawdzamy, czy token jest ważny
+            return jwtService.isTokenValid(token, user);
+        } catch (Exception e) {
+            // Jeśli jakikolwiek wyjątek wystąpi (np. token jest niepoprawny), zwrócimy false
+            return false;
+        }
+    }
+
+
+
 }

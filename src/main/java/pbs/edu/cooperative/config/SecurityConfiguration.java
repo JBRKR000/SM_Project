@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable()) // Wyłącz CSRF
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/authenticate").permitAll()
+                        .requestMatchers("/api/auth/authenticatetoken").permitAll()
                         .requestMatchers("/api/auth/register").hasAuthority("ADMIN")
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/user/**").permitAll()
