@@ -20,4 +20,5 @@ public interface FlatService {
     Page<Flat> getFlatsByStaircaseId(int staircaseId, Pageable pageable);
     Integer getFlatIdByTenantId(int tenantId);
     Flat getFlatByTenantId(int tenantId);
+    Flat getByTenantNameAndSurname(String name, String surname);
 }

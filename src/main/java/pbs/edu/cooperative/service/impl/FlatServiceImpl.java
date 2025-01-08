@@ -66,4 +66,9 @@ public class FlatServiceImpl implements FlatService {
         return flatRepository.getFlatByTenantId(tenantId);
     }
 
+    @Override
+    public Flat getByTenantNameAndSurname(String name, String surname) {
+        return flatRepository.getByTenantNameAndSurname(name, surname);
+    }
+
 }
