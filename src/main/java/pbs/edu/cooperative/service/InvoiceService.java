@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Invoice;
+import pbs.edu.cooperative.model.enums.InvoiceCategory;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,5 +20,5 @@ public interface InvoiceService {
     Page<Invoice> getInvoicesByTenantId(int tenantId, Pageable pageable);  // Zmieniono z List<Invoice> na Page<Invoice>
     Page<Invoice> getPaidInvoicesByTenantId(Integer tenantId, Pageable pageable);
     Page<Invoice> getUnpaidInvoicesByTenantId(Integer tenantId, Pageable pageable);
-
+    List<InvoiceCategory> getAllInvoiceCategories();
 }

@@ -15,4 +15,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 
     @Query("SELECT i FROM Invoice i where i.isPaid = false and i.tenant.tenantId = :tenantId")
     Page<Invoice> findByTenantIdAndIsPaidFalse(Integer tenantId, Pageable pageable);
+
+
 }

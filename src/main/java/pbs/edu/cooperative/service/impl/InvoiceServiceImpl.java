@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Invoice;
+import pbs.edu.cooperative.model.enums.InvoiceCategory;
 import pbs.edu.cooperative.repository.InvoiceRepository;
 import pbs.edu.cooperative.service.InvoiceService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +60,10 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public Page<Invoice> getUnpaidInvoicesByTenantId(Integer tenantId, Pageable pageable) {
         return invoiceRepository.findByTenantIdAndIsPaidFalse(tenantId, pageable);
+    }
+
+    @Override
+    public List<InvoiceCategory> getAllInvoiceCategories() {
+        return Arrays.asList(InvoiceCategory.values());
     }
 }

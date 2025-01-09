@@ -99,4 +99,8 @@ public class TenantController {
         Tenant updatedTenant = tenantService.saveTenant(tenant);
         return ResponseEntity.ok(updatedTenant);
     }
+    @GetMapping("/getTenantByNameAndSurname/{name}/{surname}")
+    public Optional<Tenant> getTenantByNameAndSurname(@PathVariable String name, @PathVariable String surname) {
+        return tenantService.getTenantByNameAndSurname(name, surname);
+    }
 }
