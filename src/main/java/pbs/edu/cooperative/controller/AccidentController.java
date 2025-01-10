@@ -36,4 +36,6 @@ public class AccidentController {
     public void deleteAccidentById(@PathVariable int id) {
         accidentService.deleteAccidentById(id);
     }
+
+
 }

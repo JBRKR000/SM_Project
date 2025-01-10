@@ -30,7 +30,7 @@ public class ApartmentStaircase {
     @Column(name = "staircase_number")
     private int staircaseNumber;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "block_id", nullable = false)
     private Block block;
 

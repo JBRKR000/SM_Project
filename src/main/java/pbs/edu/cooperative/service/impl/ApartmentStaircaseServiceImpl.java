@@ -44,9 +44,10 @@ public class ApartmentStaircaseServiceImpl implements ApartmentStaircaseService 
 
     @Override
     public void deleteApartmentStaircaseById(int id) {
-        apartmentStaircaseRepository.deleteById(id);
+        ApartmentStaircase apartmentStaircase = apartmentStaircaseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono klatki o id: " + id));
+        apartmentStaircaseRepository.delete(apartmentStaircase);
     }
-
     @Override
     public void deleteApartmentStaircase(ApartmentStaircase apartmentStaircase) {
         apartmentStaircaseRepository.delete(apartmentStaircase);

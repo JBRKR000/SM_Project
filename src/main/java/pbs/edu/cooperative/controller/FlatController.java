@@ -3,9 +3,18 @@ package pbs.edu.cooperative.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import pbs.edu.cooperative.model.ApartmentStaircase;
 import pbs.edu.cooperative.model.Flat;
+import pbs.edu.cooperative.model.MeterReading;
+import pbs.edu.cooperative.model.Tenant;
+import pbs.edu.cooperative.repository.ApartmentStaircaseRepository;
+import pbs.edu.cooperative.responses.MeterReadingRequest;
 import pbs.edu.cooperative.service.FlatService;
+import pbs.edu.cooperative.service.TenantService;
 
 import java.util.Optional;
 
@@ -14,10 +23,14 @@ import java.util.Optional;
 public class FlatController {
 
     private final FlatService flatService;
+    TenantService tenantService;
+    ApartmentStaircaseRepository apartmentStaircaseRepository;
 
     @Autowired
-    public FlatController(FlatService flatService) {
+    public FlatController(FlatService flatService, TenantService tenantService, ApartmentStaircaseRepository apartmentStaircaseRepository) {
         this.flatService = flatService;
+        this.tenantService = tenantService;
+        this.apartmentStaircaseRepository = apartmentStaircaseRepository;
     }
 
     @GetMapping("/{id}")
@@ -27,8 +40,17 @@ public class FlatController {
 
     @PostMapping
     public Flat saveFlat(@RequestBody Flat flat) {
+        // Pobierz istniejącą klatkę schodową
+        ApartmentStaircase staircase = apartmentStaircaseRepository.findById(flat.getApartmentStaircase().getApartmentStaircaseId())
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono klatki schodowej o ID: " + flat.getApartmentStaircase().getApartmentStaircaseId()));
+
+        // Ustaw zarządzany obiekt klatki w mieszkaniu
+        flat.setApartmentStaircase(staircase);
+
+        // Zapisz mieszkanie
         return flatService.saveFlat(flat);
     }
+
 
     @GetMapping
     public Page<Flat> getAllFlats(Pageable pageable) {
@@ -53,4 +75,7 @@ public class FlatController {
     public Flat getFlatByTenantNameAndSurname(@PathVariable String name, @PathVariable String surname) {
         return flatService.getByTenantNameAndSurname(name, surname);
     }
+
+
+
 }

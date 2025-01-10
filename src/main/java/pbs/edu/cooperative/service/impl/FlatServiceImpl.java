@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pbs.edu.cooperative.model.Block;
 import pbs.edu.cooperative.model.Flat;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.repository.FlatRepository;
@@ -39,7 +40,9 @@ public class FlatServiceImpl implements FlatService {
 
     @Override
     public void deleteFlatById(int id) {
-        flatRepository.deleteById(id);
+        Flat flat = flatRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono mieszkania o id: " + id));
+        flatRepository.delete(flat);
     }
 
     @Override

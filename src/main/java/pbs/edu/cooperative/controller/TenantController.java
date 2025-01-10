@@ -64,15 +64,36 @@ public class TenantController {
         return tenantService.saveTenant(tenant);
     }
 
+    @PutMapping("/{tenantId}")
+    public Tenant updateTenant(@PathVariable int tenantId, @RequestBody Map<String, Object> tenantData) {
+        // Pobierz istniejącego tenant
+        Optional<Tenant> existingTenantOpt = tenantService.getTenantById(tenantId);
+
+        if (existingTenantOpt.isEmpty()) {
+            throw new RuntimeException("Tenant not found with id: " + tenantId);
+        }
+
+        Tenant tenant = existingTenantOpt.get();
+
+        // Aktualizuj tylko wybrane pola
+        tenant.setPesel((String) tenantData.get("pesel"));
+        tenant.setName((String) tenantData.get("name"));
+        tenant.setSurname((String) tenantData.get("surname"));
+        tenant.setPhoneNumber((String) tenantData.get("phoneNumber"));
+        tenant.setMail((String) tenantData.get("mail"));
+        tenant.setTenantsNumber((Integer) tenantData.get("tenantsNumber"));
+
+        // Zapisz zmiany
+        return tenantService.saveTenant(tenant);
+    }
+
+
     @GetMapping
     public Page<ManageTenantsResponse> getAllManageTenantsResponse(Pageable pageable) {
         return tenantService.getAllManageTenants(pageable);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteTenantById(@PathVariable int id) {
-        tenantService.deleteTenantById(id);
-    }
+
 
     @GetMapping("/getTenantByFlatId/{flatId}")
     public Tenant getTenantByFlatId(@PathVariable int flatId) {

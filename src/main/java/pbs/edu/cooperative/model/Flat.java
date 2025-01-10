@@ -28,14 +28,14 @@ public class Flat {
     @Column(name = "surface", nullable = false)
     private float surface;
 
-    @OneToOne(mappedBy = "flat")
+    @OneToOne(mappedBy = "flat", cascade = CascadeType.ALL)
     private Tenant tenant;
 
     @OneToMany(mappedBy = "flat", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Accident> accidents = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "apartment_staircase_id", nullable = false)
     private ApartmentStaircase apartmentStaircase;
 

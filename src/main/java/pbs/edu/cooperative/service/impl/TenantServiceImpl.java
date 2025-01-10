@@ -39,8 +39,11 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     public void deleteTenantById(int id) {
-        tenantRepository.deleteById(id);
+        Tenant tenant = tenantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono mieszkańca o id: " + id));
+        tenantRepository.delete(tenant);
     }
+
 
     @Override
     public void deleteTenant(Tenant tenant) {

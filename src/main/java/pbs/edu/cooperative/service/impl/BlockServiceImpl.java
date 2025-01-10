@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pbs.edu.cooperative.model.Block;
+import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.repository.BlockRepository;
 import pbs.edu.cooperative.service.BlockService;
 
@@ -40,9 +41,10 @@ public class BlockServiceImpl implements BlockService {
 
     @Override
     public void deleteBlockById(int id) {
-        blockRepository.deleteById(id);
+        Block block = blockRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono bloku o id: " + id));
+        blockRepository.delete(block);
     }
-
     @Override
     public void deleteBlock(Block block) {
         blockRepository.delete(block);

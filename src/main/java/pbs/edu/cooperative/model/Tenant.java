@@ -55,7 +55,7 @@ public class Tenant {
     @JsonManagedReference
     private Flat flat;
 
-    @OneToOne(mappedBy = "tenant")
+    @OneToOne(mappedBy = "tenant", cascade = CascadeType.ALL)
     @JsonManagedReference
     private User user;
 
