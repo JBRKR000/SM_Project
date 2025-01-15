@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.responses.ManageTenantsResponse;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,4 +26,7 @@ public interface TenantService {
 
     Page<Tenant> getTenantByIsBacklog(boolean isBacklog, Pageable pageable);
 
+    List<Tenant> getAllUsersWithoutUser();
+
+    Page<Tenant> getAllTenantsWithUser(Pageable pageable);
 }

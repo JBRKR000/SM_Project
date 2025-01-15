@@ -85,4 +85,12 @@ public class AdminController {
                 .collect(Collectors.toMap(Enum::name, Enum::toString));
         return ResponseEntity.ok(categories);
     }
+    @GetMapping("/tenantsWithoutUser")
+    public List<Tenant> getAllUsersWithoutUser() {
+        return tenantService.getAllUsersWithoutUser();
+    }
+    @GetMapping("/tenantsWithUser")
+    public Page<Tenant> getAllTenantsWithUser(Pageable pageable) {
+        return tenantService.getAllTenantsWithUser(pageable);
+    }
 }

@@ -9,6 +9,7 @@ import pbs.edu.cooperative.repository.TenantRepository;
 import pbs.edu.cooperative.responses.ManageTenantsResponse;
 import pbs.edu.cooperative.service.TenantService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -90,6 +91,16 @@ public class TenantServiceImpl implements TenantService {
     @Override
     public Page<Tenant> getTenantByIsBacklog(boolean isBacklog, Pageable pageable) {
         return tenantRepository.getTenantByIsBacklog(isBacklog, pageable);
+    }
+
+    @Override
+    public List<Tenant> getAllUsersWithoutUser() {
+        return tenantRepository.findTenantWithoutUser();
+    }
+
+    @Override
+    public Page<Tenant> getAllTenantsWithUser(Pageable pageable) {
+        return tenantRepository.findTenantWithUser(pageable);
     }
 
 

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pbs.edu.cooperative.model.Tenant;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -22,4 +23,10 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
 
     @Query("select t from Tenant t where t.isBacklog = :isBacklog")
     Page<Tenant> getTenantByIsBacklog(Boolean isBacklog, Pageable pageable);
+
+    @Query("SELECT t FROM Tenant t LEFT JOIN User u ON t.tenantId = u.tenant.tenantId WHERE u.tenant.tenantId IS NULL")
+    List<Tenant> findTenantWithoutUser();
+
+    @Query("SELECT t FROM Tenant t INNER JOIN User u ON t.tenantId = u.tenant.tenantId")
+    Page<Tenant> findTenantWithUser(Pageable pageable);
 }
