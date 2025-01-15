@@ -35,6 +35,37 @@ public class BlockController {
         return blockService.saveBlock(block);
     }
 
+    @PutMapping("/{id}")
+    public Block updateBlock(@PathVariable int id, @RequestBody Map<String, Object> blockData) {
+        // Pobierz istniejącego blocka
+        Optional<Block> existingBlockOpt = blockService.getBlockById(id);
+
+        if (existingBlockOpt.isEmpty()) {
+            throw new RuntimeException("Block not found with id: " + id);
+        }
+
+        Block block = existingBlockOpt.get();
+
+        // Aktualizuj tylko wybrane pola
+        if (blockData.containsKey("city")) {
+            block.setCity((String) blockData.get("city"));
+        }
+        if (blockData.containsKey("street")) {
+            block.setStreet((String) blockData.get("street"));
+        }
+        if (blockData.containsKey("buildingNumber")) {
+            System.out.println(blockData.get("buildingNumber"));
+            block.setBuildingNumber((Integer) blockData.get("buildingNumber"));
+        }
+        else{
+            System.out.println(blockData.get("buildingNumber"));
+        }
+
+        // Zapisz zmiany
+        return blockService.saveBlock(block);
+    }
+
+
     @GetMapping
     public Page<Block> getAllBlocks(Pageable pageable) {
         return blockService.getAllBlocks(pageable);

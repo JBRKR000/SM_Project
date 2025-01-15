@@ -43,6 +43,35 @@ public class ApartmentStaircaseController {
         return apartmentStaircaseService.saveApartmentStaircase(apartmentStaircase);
     }
 
+    @PutMapping("/{id}")
+    public ApartmentStaircase updateApartmentStaircase(@PathVariable int id, @RequestBody Map<String, Object> staircaseData) {
+        // Pobierz istniejącą klatkę schodową
+        Optional<ApartmentStaircase> existingStaircaseOpt = apartmentStaircaseService.getApartmentStaircaseById(id);
+
+        if (existingStaircaseOpt.isEmpty()) {
+            throw new RuntimeException("Apartment Staircase not found with id: " + id);
+        }
+
+        ApartmentStaircase staircase = existingStaircaseOpt.get();
+
+        // Aktualizuj tylko wybrane pola
+        if (staircaseData.containsKey("sharedSurface")) {
+            Object sharedSurfaceValue = staircaseData.get("sharedSurface");
+            if (sharedSurfaceValue instanceof Number) {
+                staircase.setSharedSurface(((Number) sharedSurfaceValue).floatValue());
+            } else {
+                throw new IllegalArgumentException("Shared Surface value is not a valid number.");
+            }
+        }
+
+        if (staircaseData.containsKey("staircaseNumber")) {
+            staircase.setStaircaseNumber((Integer) staircaseData.get("staircaseNumber"));
+        }
+
+        // Zapisz zmiany
+        return apartmentStaircaseService.saveApartmentStaircase(staircase);
+    }
+
 
 
     @GetMapping

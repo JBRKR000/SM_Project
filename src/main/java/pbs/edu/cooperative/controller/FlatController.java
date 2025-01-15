@@ -16,6 +16,7 @@ import pbs.edu.cooperative.responses.MeterReadingRequest;
 import pbs.edu.cooperative.service.FlatService;
 import pbs.edu.cooperative.service.TenantService;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -50,6 +51,37 @@ public class FlatController {
         // Zapisz mieszkanie
         return flatService.saveFlat(flat);
     }
+
+    @PutMapping("/{id}")
+    public Flat updateFlat(@PathVariable int id, @RequestBody Map<String, Object> flatData) {
+        // Pobierz istniejące mieszkanie
+        Optional<Flat> existingFlatOpt = flatService.getFlatById(id);
+
+        if (existingFlatOpt.isEmpty()) {
+            throw new RuntimeException("Flat not found with id: " + id);
+        }
+
+        Flat flat = existingFlatOpt.get();
+
+        // Aktualizuj tylko wybrane pola
+        if (flatData.containsKey("flatNumber")) {
+            flat.setFlatNumber((Integer) flatData.get("flatNumber"));
+        }
+        if (flatData.containsKey("surface")) {
+            Object surfaceValue = flatData.get("surface");
+            if (surfaceValue instanceof Number) {
+                flat.setSurface(((Number) surfaceValue).floatValue());
+            } else {
+                throw new IllegalArgumentException("Surface value is not a valid number.");
+            }
+        }
+
+        // Zapisz zmiany
+        return flatService.saveFlat(flat);
+    }
+
+
+
 
 
     @GetMapping
