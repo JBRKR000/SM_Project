@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pbs.edu.cooperative.model.Tenant;
 import pbs.edu.cooperative.repository.TenantRepository;
 import pbs.edu.cooperative.responses.ManageTenantsResponse;
@@ -37,12 +38,11 @@ public class TenantServiceImpl implements TenantService {
     public Page<Tenant> getAllTenants(Pageable pageable) {
         return tenantRepository.findAll(pageable);
     }
-
+    @Transactional
     @Override
     public void deleteTenantById(int id) {
-        Tenant tenant = tenantRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Nie znaleziono mieszkańca o id: " + id));
-        tenantRepository.delete(tenant);
+
+        tenantRepository.deleteTenantById(id);
     }
 
 

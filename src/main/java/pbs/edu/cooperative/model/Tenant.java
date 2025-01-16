@@ -50,7 +50,7 @@ public class Tenant {
     private List<WaterConsumptionLog> waterConsumptionLogs = new ArrayList<>();
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "flat_id", referencedColumnName = "flat_id", nullable = false)
     @JsonManagedReference
     private Flat flat;

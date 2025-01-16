@@ -26,19 +26,24 @@ public class TenantController {
 
     private final TenantService tenantService;
     private final FlatService flatService;
-    private final WaterConsumptionLogService waterConsumptionLogService;
+
 
     @Autowired
     public TenantController(TenantService tenantService, FlatService flatService, WaterConsumptionLogService waterConsumptionLogService) {
         this.tenantService = tenantService;
         this.flatService = flatService;
-        this.waterConsumptionLogService = waterConsumptionLogService;
     }
 
     @GetMapping("/{id}")
     public Optional<Tenant> getTenantById(@PathVariable int id) {
         return tenantService.getTenantById(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteTenantById(@PathVariable int id) {
+       tenantService.deleteTenantById(id);
+    }
+
 
     @PostMapping
     public Tenant saveTenant(@RequestBody Map<String, Object> tenantData) {

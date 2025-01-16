@@ -3,7 +3,9 @@ package pbs.edu.cooperative.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import pbs.edu.cooperative.model.Tenant;
 
 import java.util.List;
@@ -14,6 +16,11 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer> {
 
     @Query("select t from Tenant t where t.isBacklog")
     Page<Tenant> findAllTenantsByIsBacklog(Pageable pageable);
+
+    @Modifying
+    @Query("delete from Tenant t where t.tenantId = :id")
+    void deleteTenantById(@Param("id") Integer id);
+
 
     @Query("select t from Tenant t where t.flat.flatId = :flatId")
     Tenant getTenantByFlatId(int flatId);

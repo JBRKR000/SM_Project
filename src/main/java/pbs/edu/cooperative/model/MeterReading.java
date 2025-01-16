@@ -20,7 +20,7 @@ public class MeterReading {
     @Column(name = "reading_id")
     private int readingId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tenant_id", nullable = false)
     private Tenant tenant;
 
