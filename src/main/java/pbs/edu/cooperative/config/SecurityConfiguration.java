@@ -34,6 +34,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/register").hasAuthority("ADMIN")
                         .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger dostępny publicznie
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
