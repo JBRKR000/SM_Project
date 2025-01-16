@@ -3,6 +3,7 @@ package pbs.edu.cooperative.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pbs.edu.cooperative.model.Block;
 import pbs.edu.cooperative.service.BlockService;
@@ -71,6 +72,7 @@ public class BlockController {
         return blockService.getAllBlocks(pageable);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public void deleteBlockById(@PathVariable int id) {
         blockService.deleteBlockById(id);

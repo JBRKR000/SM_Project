@@ -38,10 +38,12 @@ public class TenantServiceImpl implements TenantService {
     public Page<Tenant> getAllTenants(Pageable pageable) {
         return tenantRepository.findAll(pageable);
     }
+
+
     @Transactional
     @Override
     public void deleteTenantById(int id) {
-
+        tenantRepository.deleteUserByTenantId(id);
         tenantRepository.deleteTenantById(id);
     }
 
